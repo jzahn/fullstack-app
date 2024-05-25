@@ -1,0 +1,29 @@
+services:
+  api:
+    container_name: api
+    build: ./api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sql    
+  sql:
+    container_name: sql
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password123
+    ports:
+      - "1433:1433"
+    # volumes:
+    #   - "./data/:/var/opt/mssql/data/"
+    #   - "./log/:/var/opt/mssql/log/"
+    #   - "./secrets/:/var/opt/mssql/secrets/"
+  client:
+    container_name: client
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+    ports:
+      - "4200:4200"
+    depends_on:
+      - api  

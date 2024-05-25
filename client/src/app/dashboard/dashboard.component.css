@@ -1,0 +1,49 @@
+.grid-container {
+  margin: 20px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+
+.title-bar {
+  display: flex;
+  align-items: center;
+}
+
+.add-button {
+  margin-top: -10px;
+  margin-left: auto;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.dashboard-card-content {
+  text-align: left;
+}
+
+mat-card-title {
+  padding-bottom: 18px;
+}
+
+.dashboard-card-content div {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.icon-text-container {
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  margin-left: 10px;
+}
