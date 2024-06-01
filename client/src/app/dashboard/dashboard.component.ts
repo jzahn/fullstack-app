@@ -1,6 +1,6 @@
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -13,25 +13,18 @@ import { PhonePipe } from "../phone.pipe";
 import { ContactFormComponent } from '../contact-form/contact-form.component';
 import { MatDialog } from '@angular/material/dialog';
 
-@Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css',
-  standalone: true,
-  providers: [ContactsService],
-  imports: [
-    AsyncPipe,
-    MatGridListModule,
-    MatIconModule,
-    MatCardModule,
-    MatDividerModule,
-    MatMenuModule,
-    MatButtonModule,
-    HttpClientModule,
-    CommonModule,
-    PhonePipe
-  ]
-})
+@Component({ selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.css',
+    standalone: true, imports: [AsyncPipe,
+        MatGridListModule,
+        MatIconModule,
+        MatCardModule,
+        MatDividerModule,
+        MatMenuModule,
+        MatButtonModule,
+        CommonModule,
+        PhonePipe], providers: [ContactsService, provideHttpClient(withInterceptorsFromDi())] })
 export class DashboardComponent {
   contacts: Contact[] = [];
   cols: number = 3;

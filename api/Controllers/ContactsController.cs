@@ -1,5 +1,6 @@
 using Database;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Model;
 
@@ -36,8 +37,19 @@ public class ContactsController(DatabaseContext context) : ControllerBase
     public async Task<IActionResult> Create(Contact contact)
     {
         _context.Contacts.Add(contact);
-        await _context.SaveChangesAsync();
-        return CreatedAtAction("Read", new { id = contact.Id }, contact);
+        try {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateException ex) {
+            if (ex.InnerException is SqlException sqlException && sqlException.Number == 2627)
+            {
+                throw new Exception("Email address has already been entered for another contact.", ex);
+            }
+            throw;
+        }
+        // this always shows as a 500 for some reason
+        // return CreatedAtAction("Read", new { id = contact.Id }, contact);
+        return Ok(contact.Id);
     }
 
     [HttpPut("{id}")]

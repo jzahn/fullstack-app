@@ -6,21 +6,16 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Contact, ContactsService } from '../contacts.service';
 import { catchError, of } from 'rxjs';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-@Component({
-  selector: 'app-contact-form',
-  standalone: true,
-  providers: [ContactsService],
-  imports: [MatDialogModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    HttpClientModule],
-  templateUrl: './contact-form.component.html',
-  styleUrl: './contact-form.component.css'
-})
+@Component({ selector: 'app-contact-form',
+    standalone: true,
+    templateUrl: './contact-form.component.html',
+    styleUrl: './contact-form.component.css', imports: [MatDialogModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule], providers: [ContactsService, provideHttpClient(withInterceptorsFromDi())] })
 export class ContactFormComponent {
 
   contactForm: FormGroup;
