@@ -10,6 +10,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { Contact, ContactsService } from '../contacts.service';
 import { PhonePipe } from "../phone.pipe";
+import { ContactFormComponent } from '../contact-form/contact-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,7 +37,8 @@ export class DashboardComponent {
   cols: number = 3;
 
   constructor(private contactsService: ContactsService,
-    private breakpointObserver: BreakpointObserver) { }
+    private breakpointObserver: BreakpointObserver,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadContacts();
@@ -73,6 +76,36 @@ export class DashboardComponent {
   loadContacts(): void {
     this.contactsService.getContacts().subscribe((data: Contact[]) => {
       this.contacts = data;
+    });
+  }
+
+  saveContact(contact: Contact) {
+    this.contactsService.createContact(contact).subscribe((result: Contact) => {
+      return result;
+    });
+  }
+
+  openDialog(contact?: Contact): void {
+    const dialogRef = this.dialog.open(ContactFormComponent, {
+      width: '300px',
+      data: contact || {} // Pass the contact data if editing, otherwise pass an empty object
+    });
+
+    dialogRef.afterClosed().subscribe((result: Contact) => {
+      if (result) {
+        if (contact) {
+          // Edit mode: update the existing contact
+          const index = this.contacts.indexOf(contact);
+          if (index !== -1) {
+            this.contacts[index] = result;
+          }
+        } else {
+          // Create mode: add a new contact
+          this.saveContact(result);
+          this.contacts.push(result);
+        }
+        console.log('Contact added or edited:', result);
+      }
     });
   }
 }

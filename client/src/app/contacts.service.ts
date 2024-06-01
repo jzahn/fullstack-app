@@ -33,6 +33,7 @@ export class ContactsService {
 
   // Create a new contact
   createContact(contact: Contact): Observable<Contact> {
+    console.log(contact);
     return this.http.post<Contact>(this.apiUrl, contact);
   }
 
