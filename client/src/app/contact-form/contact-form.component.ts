@@ -5,17 +5,24 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Contact, ContactsService } from '../contacts.service';
-import { catchError, of } from 'rxjs';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { Subscription, catchError, finalize, of, throwError } from 'rxjs';
 
-@Component({ selector: 'app-contact-form',
-    standalone: true,
-    templateUrl: './contact-form.component.html',
-    styleUrl: './contact-form.component.css', imports: [MatDialogModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule], providers: [ContactsService, provideHttpClient(withInterceptorsFromDi())] })
+@Component({
+  selector: 'app-contact-form',
+  standalone: true,
+  templateUrl: './contact-form.component.html',
+  styleUrl: './contact-form.component.css',
+  imports: [
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
+  ],
+  providers: [
+    ContactsService,
+  ]
+})
 export class ContactFormComponent {
 
   contactForm: FormGroup;
@@ -25,24 +32,26 @@ export class ContactFormComponent {
   constructor(
     private contactsService: ContactsService,
     public dialogRef: MatDialogRef<ContactFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Contact
+    @Inject(MAT_DIALOG_DATA) public contact: Contact
   ) {
-    this.isEditMode = !!data;
-
+    this.isEditMode = contact.id !== undefined;
     this.contactForm = new FormGroup({
-      first_name: new FormControl(data?.first_name || '', [Validators.required]),
-      last_name: new FormControl(data?.last_name || '', [Validators.required]),
-      email: new FormControl(data?.email || '', [Validators.required, Validators.email]),
-      phone: new FormControl(data?.phone || '', [Validators.required, Validators.pattern(/^\d{10}$/)])
+      id: new FormControl(contact.id),
+      first_name: new FormControl(contact?.first_name || '', [Validators.required]),
+      last_name: new FormControl(contact?.last_name || '', [Validators.required]),
+      email: new FormControl(contact?.email || '', [Validators.required, Validators.email]),
+      phone: new FormControl(contact?.phone || '', [Validators.required, Validators.pattern(/^\d{10}$/)])
     });
   }
   onSubmit() {
-    if (this.contactForm.valid) {
-      this.saveContact(this.contactForm.value);
-      console.log(this.errorMessage);
-      // if (this.errorMessage == null) {
-      //   this.dialogRef.close(this.contactForm.value);
-      // }
+    if (!this.contactForm.valid) {
+      throwError(() => new Error("Internal error, form is invalid.")); // need to throw error here
+    }
+    if (this.isEditMode) {
+      this.updateContact(this.contactForm.value);
+    }
+    else {
+      this.createContact(this.contactForm.value);
     }
   }
 
@@ -50,14 +59,27 @@ export class ContactFormComponent {
     this.dialogRef.close();
   }
 
-  saveContact(contact: Contact) {
+  createContact(contact: Contact) {
     this.errorMessage = null;
     this.contactsService.createContact(contact)
       .pipe(
-        catchError((e) => of(this.errorMessage = e.error.detail))
+        catchError((e) => of(this.errorMessage = e.error.detail)),
+        finalize(() => { if (!this.errorMessage) { this.dialogRef.close(contact) } })
       )
       .subscribe(
-        (result: string | Contact) => {return result;}
+        (result: Contact) => { return result; }
+      );
+  }
+
+  updateContact(contact: Contact) {
+    this.errorMessage = null;
+    this.contactsService.updateContact(contact)
+      .pipe(
+        catchError((e) => of(this.errorMessage = e.error.detail)),
+        finalize(() => { if (!this.errorMessage) { this.dialogRef.close(contact) } })
+      )
+      .subscribe(
+        (result: Contact) => { return result; }
       );
   }
 }

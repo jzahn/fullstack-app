@@ -1,6 +1,5 @@
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -12,33 +11,39 @@ import { Contact, ContactsService } from '../contacts.service';
 import { PhonePipe } from "../phone.pipe";
 import { ContactFormComponent } from '../contact-form/contact-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-@Component({ selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrl: './dashboard.component.css',
-    standalone: true, imports: [AsyncPipe,
-        MatGridListModule,
-        MatIconModule,
-        MatCardModule,
-        MatDividerModule,
-        MatMenuModule,
-        MatButtonModule,
-        CommonModule,
-        PhonePipe], providers: [ContactsService, provideHttpClient(withInterceptorsFromDi())] })
+@Component({
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css',
+  standalone: true,
+  imports: [
+    AsyncPipe,
+    MatGridListModule,
+    MatIconModule,
+    MatCardModule,
+    MatDividerModule,
+    MatMenuModule,
+    MatButtonModule,
+    CommonModule,
+    PhonePipe],
+  providers: [
+    ContactsService,
+  ]
+})
 export class DashboardComponent {
   contacts: Contact[] = [];
   cols: number = 3;
+  snackBarTimer = 4000;
 
   constructor(private contactsService: ContactsService,
     private breakpointObserver: BreakpointObserver,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.loadContacts();
-
-    console.log(Breakpoints.Handset);
-    console.log(Breakpoints.Tablet);
-    console.log(Breakpoints.Web);
 
     this.breakpointObserver.observe([
       Breakpoints.Handset,
@@ -46,7 +51,6 @@ export class DashboardComponent {
       Breakpoints.Web
     ]).subscribe((state: BreakpointState) => {
       if (state.matches) {
-        console.log(state);
         if (state.breakpoints[Breakpoints.HandsetPortrait]) {
           console.log('Small breakpoint matched');
           this.cols = 1;
@@ -67,21 +71,30 @@ export class DashboardComponent {
   }
 
   loadContacts(): void {
-    this.contactsService.getContacts().subscribe((data: Contact[]) => {
-      this.contacts = data;
+    this.contactsService.getContacts().subscribe((contacts: Contact[]) => {
+      this.contacts = this.sortContactsByLastNameFirstName(contacts);
     });
   }
 
-  saveContact(contact: Contact) {
-    this.contactsService.createContact(contact).subscribe((result: Contact) => {
-      return result;
+  deleteContact(contact: Contact): void {
+    console.log('deleting: ' + contact.id);
+    this.contactsService.deleteContact(contact.id).subscribe(() => {
+      
+      const index = this.contacts.indexOf(contact);
+      if (index !== -1) {
+        this.contacts.splice(index, 1);
+        console.log(contact.id + ' deleted');
+        this.snackBar.open('Contact deleted', 'Dismiss', {
+          duration: this.snackBarTimer
+        });
+      }
     });
   }
 
   openDialog(contact?: Contact): void {
     const dialogRef = this.dialog.open(ContactFormComponent, {
       width: '300px',
-      data: contact || {} // Pass the contact data if editing, otherwise pass an empty object
+      data: contact || {}
     });
 
     dialogRef.afterClosed().subscribe((result: Contact) => {
@@ -91,14 +104,30 @@ export class DashboardComponent {
           const index = this.contacts.indexOf(contact);
           if (index !== -1) {
             this.contacts[index] = result;
+            console.log('Contact edited:', result);
+            this.snackBar.open('Contact edited', 'Dismiss', {
+              duration: this.snackBarTimer
+            });   
           }
         } else {
-          // Create mode: add a new contact
-          this.saveContact(result);
           this.contacts.push(result);
+          this.sortContactsByLastNameFirstName(this.contacts);
+          console.log('Contact added:', result);
+          this.snackBar.open(`Contact added`, 'Dismiss', {
+            duration: this.snackBarTimer
+          });
         }
-        console.log('Contact added or edited:', result);
       }
+    });
+  }
+
+  sortContactsByLastNameFirstName(contacts: Contact[]): Contact[] {
+    return contacts.sort((a, b) => {
+      const lastNameComparison = a.last_name.localeCompare(b.last_name);
+      if (lastNameComparison !== 0) {
+        return lastNameComparison;
+      }
+      return a.first_name.localeCompare(b.first_name);
     });
   }
 }

@@ -37,26 +37,32 @@ public class ContactsController(DatabaseContext context) : ControllerBase
     public async Task<IActionResult> Create(Contact contact)
     {
         _context.Contacts.Add(contact);
-        try {
+        try
+        {
             await _context.SaveChangesAsync();
         }
-        catch (DbUpdateException ex) {
+        catch (DbUpdateException ex)
+        {
             if (ex.InnerException is SqlException sqlException && sqlException.Number == 2627)
             {
                 throw new Exception("Email address has already been entered for another contact.", ex);
             }
             throw;
         }
+
+        _context.Entry(contact).State = EntityState.Added;
+
         // this always shows as a 500 for some reason
         // return CreatedAtAction("Read", new { id = contact.Id }, contact);
         return Ok(contact.Id);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, Contact contact)
+    public async Task<IActionResult> Update(Guid id, Contact contact)
     {
         if (!id.Equals(contact.Id))
         {
+            
             return BadRequest();
         }
 
@@ -77,12 +83,20 @@ public class ContactsController(DatabaseContext context) : ControllerBase
                 throw;
             }
         }
+        catch (DbUpdateException ex)
+        {
+            if (ex.InnerException is SqlException sqlException && sqlException.Number == 2627)
+            {
+                throw new Exception("Email address has already been entered for another contact.", ex);
+            }
+            throw;
+        }
 
-        return NoContent();
+        return Ok();
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var contact = await _context.Contacts.FindAsync(id);
         if (contact == null)
@@ -90,12 +104,12 @@ public class ContactsController(DatabaseContext context) : ControllerBase
             return NotFound();
         }
 
-        _context.Contacts.Remove(contact);
+        _context.Contacts.Remove(contact);;
         await _context.SaveChangesAsync();
         return NoContent();
     }
 
-    private bool Exists(int id)
+    private bool Exists(Guid id)
     {
         return _context.Contacts.Any(e => e.Id.Equals(id));
     }
