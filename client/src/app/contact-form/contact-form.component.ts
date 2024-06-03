@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Contact, ContactsService } from '../contacts.service';
-import { Subscription, catchError, finalize, ignoreElements, of, throwError } from 'rxjs';
+import { catchError, ignoreElements, of, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-contact-form',

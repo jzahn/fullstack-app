@@ -5,6 +5,12 @@
       <mat-icon>person_add</mat-icon>
     </button>
   </div>
+  @if (contacts.length === 0) {
+  <div class="zero-state">
+    No contacts added
+  </div>
+  }
+  @else {
   <mat-grid-list [cols]="cols" rowHeight="250px">
     @for (contact of contacts ; track contact.id) {
     <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -42,4 +48,5 @@
     </mat-grid-tile>
     }
   </mat-grid-list>
+  }
 </div>
