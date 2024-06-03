@@ -16,15 +16,21 @@ namespace api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    First_name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Last_name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    First_name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Last_name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contacts", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contacts_Email",
+                table: "Contacts",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />
