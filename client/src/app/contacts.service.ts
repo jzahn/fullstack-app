@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Contact {
-  id: number;
+  id: string;
   first_name: string;
   last_name: string;
   email: string;
@@ -22,18 +22,17 @@ export class ContactsService {
   // Get all contacts
   getContacts(): Observable<Contact[]> {
     let observable = this.http.get<Contact[]>(this.apiUrl)
-    console.log(observable);
     return observable;
   }
 
   // Get a single contact by ID
-  getContact(id: number): Observable<Contact> {
+  getContact(id: string): Observable<Contact> {
     return this.http.get<Contact>(`${this.apiUrl}/${id}`);
   }
 
   // Create a new contact
-  createContact(contact: Contact): Observable<Contact> {
-    return this.http.post<Contact>(this.apiUrl, contact);
+  createContact(contact: Contact): Observable<string> {
+    return this.http.post<string>(this.apiUrl, contact);
   }
 
   // Update an existing contact
@@ -42,7 +41,7 @@ export class ContactsService {
   }
 
   // Delete a contact
-  deleteContact(id: number): Observable<void> {
+  deleteContact(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

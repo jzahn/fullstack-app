@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +28,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// configure exception handling
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseDeveloperExceptionPage();
+// }
+// else
+// {
+    app.UseExceptionHandler("/error");
+// }
 
 app.UseHttpsRedirection();
 

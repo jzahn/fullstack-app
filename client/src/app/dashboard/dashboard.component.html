@@ -1,7 +1,7 @@
 <div class="grid-container">
   <div class="title-bar">
     <h1 class="mat-h1">Contact Manager</h1>
-    <button mat-icon-button class="add-button" aria-label="Toggle menu">
+    <button mat-icon-button class="add-button" aria-label="Toggle menu" (click)="openDialog()">
       <mat-icon>person_add</mat-icon>
     </button>
   </div>
@@ -16,10 +16,10 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>
+              <button mat-menu-item (click)="openDialog(contact)">
                 Edit
               </button>
-              <button mat-menu-item>
+              <button mat-menu-item (click)="deleteContact(contact)">
                 Delete
               </button>
             </mat-menu>

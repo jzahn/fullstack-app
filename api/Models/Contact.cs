@@ -1,10 +1,14 @@
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model;
 
 public class Contact
 {
-    public required Guid Id { get; set; }
+    [Key]
+    // [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+
+    public Guid? Id { get; set; }
     public string? First_name { get; set; }
     public string? Last_name { get; set; }
     public string? Email { get; set; }

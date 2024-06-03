@@ -7,7 +7,7 @@ CREATE TABLE Contacts (
 	first_name nvarchar(100),
 	last_name nvarchar(100),
 	email nvarchar(100),
-	phone varchar(100),
+	phone nvarchar(100),
 	CONSTRAINT PK__Users__3214EC2758B25B51 PRIMARY KEY (id),
 	CONSTRAINT UQ__Users__A9D10534BD77172E UNIQUE (email)
 );
