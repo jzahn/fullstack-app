@@ -65,13 +65,13 @@ export class ContactFormComponent {
       .pipe(
         catchError((e) => {
           this.errorMessage = e.error.detail;
-          return of(e).pipe(ignoreElements())
+          return of(e).pipe(ignoreElements());
         }),
       )
       .subscribe(
         (result: string) => {
           contact.id = result;
-          this.dialogRef.close(contact)
+          this.dialogRef.close(contact);
         }
       );
   }
@@ -80,11 +80,13 @@ export class ContactFormComponent {
     this.errorMessage = null;
     this.contactsService.updateContact(contact)
       .pipe(
-        catchError((e) => of(this.errorMessage = e.error.detail)),
-        finalize(() => { if (!this.errorMessage) { this.dialogRef.close(contact) } })
+        catchError((e) => {
+          this.errorMessage = e.error.detail;
+          return of(e).pipe(ignoreElements())
+        }),
       )
       .subscribe(
-        (result: Contact) => { return result; }
+        () => { this.dialogRef.close(contact); }
       );
   }
 }
