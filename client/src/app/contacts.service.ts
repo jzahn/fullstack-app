@@ -31,8 +31,8 @@ export class ContactsService {
   }
 
   // Create a new contact
-  createContact(contact: Contact): Observable<Contact> {
-    return this.http.post<Contact>(this.apiUrl, contact);
+  createContact(contact: Contact): Observable<string> {
+    return this.http.post<string>(this.apiUrl, contact);
   }
 
   // Update an existing contact

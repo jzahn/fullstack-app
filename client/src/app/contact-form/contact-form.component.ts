@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Contact, ContactsService } from '../contacts.service';
-import { Subscription, catchError, finalize, of, throwError } from 'rxjs';
+import { Subscription, catchError, finalize, ignoreElements, of, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-contact-form',
@@ -63,11 +63,16 @@ export class ContactFormComponent {
     this.errorMessage = null;
     this.contactsService.createContact(contact)
       .pipe(
-        catchError((e) => of(this.errorMessage = e.error.detail)),
-        finalize(() => { if (!this.errorMessage) { this.dialogRef.close(contact) } })
+        catchError((e) => {
+          this.errorMessage = e.error.detail;
+          return of(e).pipe(ignoreElements())
+        }),
       )
       .subscribe(
-        (result: Contact) => { return result; }
+        (result: string) => {
+          contact.id = result;
+          this.dialogRef.close(contact)
+        }
       );
   }
 

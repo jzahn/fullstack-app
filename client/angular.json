@@ -29,8 +29,7 @@
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "@angular/material/prebuilt-themes/purple-green.css",
-              "src/styles.css",
-              "src/custom-theme.scss"
+              "src/styles.css"
             ],
             
             "scripts": []
@@ -94,9 +93,7 @@
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "@angular/material/prebuilt-themes/purple-green.css",
-              "node_modules/font-awesome/scss/font-awesome.scss",
-              "src/styles.css",
-              "src/custom-theme.scss"
+              "src/styles.css"
             ],
             "scripts": []
           }

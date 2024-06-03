@@ -52,18 +52,15 @@ export class DashboardComponent {
     ]).subscribe((state: BreakpointState) => {
       if (state.matches) {
         if (state.breakpoints[Breakpoints.HandsetPortrait]) {
-          console.log('Small breakpoint matched');
           this.cols = 1;
         }
         else if (state.breakpoints[Breakpoints.TabletPortrait] ||
           state.breakpoints[Breakpoints.HandsetLandscape]) {
-          console.log('Medium breakpoint matched');
           this.cols = 2;
         }
         else if (state.breakpoints[Breakpoints.WebPortrait] ||
           state.breakpoints[Breakpoints.WebLandscape] ||
           state.breakpoints[Breakpoints.TabletLandscape]) {
-          console.log('Large breakpoint matched');
           this.cols = 3;
         }
       }
@@ -77,13 +74,11 @@ export class DashboardComponent {
   }
 
   deleteContact(contact: Contact): void {
-    console.log('deleting: ' + contact.id);
     this.contactsService.deleteContact(contact.id).subscribe(() => {
       
       const index = this.contacts.indexOf(contact);
       if (index !== -1) {
         this.contacts.splice(index, 1);
-        console.log(contact.id + ' deleted');
         this.snackBar.open('Contact deleted', 'Dismiss', {
           duration: this.snackBarTimer
         });
@@ -104,7 +99,6 @@ export class DashboardComponent {
           const index = this.contacts.indexOf(contact);
           if (index !== -1) {
             this.contacts[index] = result;
-            console.log('Contact edited:', result);
             this.snackBar.open('Contact edited', 'Dismiss', {
               duration: this.snackBarTimer
             });   
@@ -112,7 +106,6 @@ export class DashboardComponent {
         } else {
           this.contacts.push(result);
           this.sortContactsByLastNameFirstName(this.contacts);
-          console.log('Contact added:', result);
           this.snackBar.open(`Contact added`, 'Dismiss', {
             duration: this.snackBarTimer
           });
