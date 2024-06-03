@@ -47,3 +47,9 @@ mat-card-title {
 .text {
   margin-left: 10px;
 }
+
+.zero-state {
+  text-align: center;
+  color: darkgray;
+  margin-top: 100px;
+}

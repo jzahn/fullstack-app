@@ -1,3 +1,6 @@
+DROP TABLE Contacts;
+DROP DATABASE api;
+
 CREATE DATABASE api;
 
 use api;
