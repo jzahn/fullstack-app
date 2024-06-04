@@ -5,7 +5,10 @@
       <mat-icon>person_add</mat-icon>
     </button>
   </div>
-  @if (contacts.length === 0) {
+  @if (loading) {
+  <mat-spinner class="spinner" diameter="50"></mat-spinner>
+  }
+  @if (contacts.length === 0 && !loading) {
   <div class="zero-state">
     No contacts added
   </div>

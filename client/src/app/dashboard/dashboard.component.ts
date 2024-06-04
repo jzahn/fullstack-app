@@ -7,6 +7,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { Contact, ContactsService } from '../contacts.service';
 import { PhonePipe } from "../phone.pipe";
 import { ContactFormComponent } from '../contact-form/contact-form.component';
@@ -26,6 +27,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatDividerModule,
     MatMenuModule,
     MatButtonModule,
+    MatProgressSpinnerModule,
     CommonModule,
     PhonePipe],
   providers: [
@@ -35,7 +37,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class DashboardComponent {
   contacts: Contact[] = [];
   cols: number = 3;
-  snackBarTimer = 4000;
+  snackBarTimer: number = 4000;
+  loading: boolean = true;
 
   constructor(private contactsService: ContactsService,
     private breakpointObserver: BreakpointObserver,
@@ -70,6 +73,7 @@ export class DashboardComponent {
   loadContacts(): void {
     this.contactsService.getContacts().subscribe((contacts: Contact[]) => {
       this.contacts = this.sortContactsByLastNameFirstName(contacts);
+      this.loading = false;
     });
   }
 
