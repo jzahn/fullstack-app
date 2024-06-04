@@ -1,16 +1,16 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Model;
 
+[Index(nameof(Email), IsUnique = true)]
 public class Contact
 {
     [Key]
-    // [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-
     public Guid? Id { get; set; }
-    public string? First_name { get; set; }
-    public string? Last_name { get; set; }
-    public string? Email { get; set; }
-    public string? Phone { get; set; }
+    public required string First_name { get; set; }
+    public required string Last_name { get; set; }
+    public required string Email { get; set; }
+    public required string Phone { get; set; }
 }

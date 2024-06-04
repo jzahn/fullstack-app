@@ -41,11 +41,12 @@ public class ContactsController(DatabaseContext context) : ControllerBase
         {
             await _context.SaveChangesAsync();
         }
-        catch (DbUpdateException ex)
+        catch (DbUpdateException dbuex)
         {
-            if (ex.InnerException is SqlException sqlException && sqlException.Number == 2627)
+            if (dbuex.InnerException is SqlException sqlex &&
+                    (sqlex.Number == 2601 || sqlex.Number == 2627))
             {
-                throw new Exception("Email address has already been entered for another contact.", ex);
+                throw new Exception("Email address has already been entered for another contact.", dbuex);
             }
             throw;
         }
@@ -62,7 +63,7 @@ public class ContactsController(DatabaseContext context) : ControllerBase
     {
         if (!id.Equals(contact.Id))
         {
-            
+
             return BadRequest();
         }
 
@@ -83,11 +84,12 @@ public class ContactsController(DatabaseContext context) : ControllerBase
                 throw;
             }
         }
-        catch (DbUpdateException ex)
+        catch (DbUpdateException dbuex)
         {
-            if (ex.InnerException is SqlException sqlException && sqlException.Number == 2627)
+            if (dbuex.InnerException is SqlException sqlex &&
+                    (sqlex.Number == 2601 || sqlex.Number == 2627))
             {
-                throw new Exception("Email address has already been entered for another contact.", ex);
+                throw new Exception("Email address has already been entered for another contact.", dbuex);
             }
             throw;
         }
@@ -104,7 +106,7 @@ public class ContactsController(DatabaseContext context) : ControllerBase
             return NotFound();
         }
 
-        _context.Contacts.Remove(contact);;
+        _context.Contacts.Remove(contact); ;
         await _context.SaveChangesAsync();
         return NoContent();
     }
