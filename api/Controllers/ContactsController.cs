@@ -22,10 +22,10 @@ public class ContactsController(DatabaseContext context) : ControllerBase
         return Ok(contacts);
     }
 
-    [HttpGet("{guid}")]
-    public async Task<IActionResult> Read(Guid guid)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Read(Guid id)
     {
-        var contact = await _context.Contacts.FindAsync(guid);
+        var contact = await _context.Contacts.FindAsync(id);
         if (contact == null)
         {
             return NotFound();
