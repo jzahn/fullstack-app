@@ -8,15 +8,15 @@ builder.Services.AddDbContextFactory<Database.DatabaseContext>(options => option
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("AllowAllOrigins",
-                builder =>
-                {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
-                });
-        });
+    {
+        options.AddPolicy("AllowAllOrigins",
+            builder =>
+            {
+                builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+            });
+    });
 
 var app = builder.Build();
 
@@ -34,7 +34,7 @@ if (app.Environment.IsDevelopment())
 // }
 // else
 // {
-    app.UseExceptionHandler("/error");
+app.UseExceptionHandler("/error");
 // }
 
 app.UseHttpsRedirection();
