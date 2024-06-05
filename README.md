@@ -5,7 +5,7 @@ An angular, angular material, asp.net core application testbed.
 ## Running the app
 
 - clone project
-- docker compose up from project root
+- docker compose up --build from project root
 - install dotnet cli locally
 - install ef core locally
 - install ef core tools locally

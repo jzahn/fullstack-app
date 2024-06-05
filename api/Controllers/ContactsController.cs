@@ -58,10 +58,10 @@ public class ContactsController(DatabaseContext context) : ControllerBase
         return Ok(contact.Id);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, Contact contact)
+    [HttpPut("{guid}")]
+    public async Task<IActionResult> Update(Guid guid, Contact contact)
     {
-        if (!id.Equals(contact.Id))
+        if (!guid.Equals(contact.Id))
         {
 
             return BadRequest();
@@ -75,7 +75,7 @@ public class ContactsController(DatabaseContext context) : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!Exists(id))
+            if (!Exists(guid))
             {
                 return NotFound();
             }
@@ -97,10 +97,10 @@ public class ContactsController(DatabaseContext context) : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    [HttpDelete("{guid}")]
+    public async Task<IActionResult> Delete(Guid guid)
     {
-        var contact = await _context.Contacts.FindAsync(id);
+        var contact = await _context.Contacts.FindAsync(guid);
         if (contact == null)
         {
             return NotFound();
@@ -111,8 +111,8 @@ public class ContactsController(DatabaseContext context) : ControllerBase
         return NoContent();
     }
 
-    private bool Exists(Guid id)
+    private bool Exists(Guid guid)
     {
-        return _context.Contacts.Any(e => e.Id.Equals(id));
+        return _context.Contacts.Any(e => e.Id.Equals(guid));
     }
 }
