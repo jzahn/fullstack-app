@@ -28,14 +28,16 @@ if (app.Environment.IsDevelopment())
 }
 
 // configure exception handling
-// if (app.Environment.IsDevelopment())
-// {
-//     app.UseDeveloperExceptionPage();
-// }
-// else
-// {
-app.UseExceptionHandler("/error");
-// }
+if (app.Environment.IsDevelopment())
+{
+    // TODO doesn't work with my exp handling
+    // app.UseDeveloperExceptionPage();
+    app.UseExceptionHandler("/error");
+}
+else
+{
+    app.UseExceptionHandler("/error");
+}
 
 app.UseHttpsRedirection();
 
