@@ -1,19 +1,9 @@
-@use '@angular/material' as mat;
-
-@import '../../theme.scss';
-
 .sidenav-container {
   height: 100%;
 }
 
 .sidenav {
   width: 200px;
-  background-color: mat.get-theme-color($theme, neutral, 10);
-  border-radius: 0px;
-}
-
-mat-sidenav-content {
-  background-color: mat.get-theme-color($theme, neutral, 0);
 }
 
 .sidenav .mat-toolbar {
@@ -28,8 +18,4 @@ mat-sidenav-content {
 
 .nav-item {
   display: flex;
-}
-
-.toolbar-2 {
-  background-color: mat.get-theme-color($theme, primary, 10);
 }

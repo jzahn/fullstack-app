@@ -1,6 +1,6 @@
-@use '@angular/material' as mat;
+/* You can add global styles to this file, and also import other style files */
 
-@import "theme.scss";
+@import "@angular/material/prebuilt-themes/azure-blue.css";
 
 html,
 body {
@@ -10,5 +10,4 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color: mat.get-theme-color($theme, neutral, 0);
 }
