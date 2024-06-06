@@ -25,6 +25,6 @@ $dark-theme: mat.define-theme((
 ));
 
 html {
-  @include mat.core-theme($dark-theme);
-  @include mat.all-component-themes($dark-theme);
+  @include mat.core-theme($light-theme);
+  @include mat.all-component-themes($light-theme);
 }
