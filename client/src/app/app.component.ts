@@ -1,15 +1,19 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
+import { NavigationComponent } from "./navigation/navigation.component";
+import { Mat3NavigationComponent } from "./mat3-navigation/mat3-navigation.component";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, MatSlideToggleModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    standalone: true,
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    imports: [
+        RouterOutlet,
+        NavigationComponent,
+        Mat3NavigationComponent
+    ]
 })
 export class AppComponent {
-  title = 'client';
+  title = 'COntact Manager';
 }
