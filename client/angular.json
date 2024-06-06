@@ -36,6 +36,7 @@
               "@angular/material/prebuilt-themes/rose-red.css",
               "@angular/material/prebuilt-themes/magenta-violet.css",
               "@angular/material/prebuilt-themes/cyan-orange.css",
+              "src/theme.scss",
               "src/styles.scss"
             ],
             "scripts": []

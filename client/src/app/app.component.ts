@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavigationComponent } from "./navigation/navigation.component";
-import { Mat3NavigationComponent } from "./mat3-navigation/mat3-navigation.component";
 
 @Component({
     selector: 'app-root',
@@ -11,7 +10,6 @@ import { Mat3NavigationComponent } from "./mat3-navigation/mat3-navigation.compo
     imports: [
         RouterOutlet,
         NavigationComponent,
-        Mat3NavigationComponent
     ]
 })
 export class AppComponent {
