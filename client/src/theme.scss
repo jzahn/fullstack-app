@@ -25,14 +25,6 @@ $dark-theme: mat.define-theme((
 ));
 
 html {
-  @include mat.core-theme($light-theme);
-  @include mat.all-component-themes($light-theme);
-  // @include mat.button-theme($light-theme);
-  // @include mat.sidenav-theme($light-theme);
-  // @include mat.grid-list-theme($light-theme);
-  // @include mat.toolbar-theme($light-theme);
-  // @include mat.card-theme($light-theme);
-  // @include mat.list-theme($light-theme);
-  // @include mat.snack-bar-theme($light-theme);
-  // @include mat.icon-button-theme($light-theme);
+  @include mat.core-theme($dark-theme);
+  @include mat.all-component-themes($dark-theme);
 }
