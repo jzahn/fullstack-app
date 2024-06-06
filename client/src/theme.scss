@@ -2,21 +2,18 @@
 
 @include mat.core();
 
-$my-theme: mat.define-theme((
+$theme: mat.define-theme((
  color: (
-    theme-type: light,
-    primary: mat.$violet-palette,
+    theme-type: dark,
+    primary: mat.$blue-palette,
+    tertiary: mat.$yellow-palette,
   ),
 ));
 
 html {
-  // Emit theme-dependent styles for common features used across multiple components.
-  @include mat.core-theme($my-theme);
-
-  // Emit styles for MatButton based on `$my-theme`. Because the configuration
-  // passed to `define-theme` omits typography, `button-theme` will not
-  // emit any typography styles.
-  @include mat.button-theme($my-theme);
-
-  // Include the theme mixins for other components you use here.
+  @include mat.core-theme($theme);
+  @include mat.button-theme($theme);
+  @include mat.sidenav-theme($theme);
+  @include mat.card-theme($theme);
+  @include mat.toolbar-theme($theme);
 }

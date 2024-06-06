@@ -1,3 +1,7 @@
+@use '@angular/material' as mat;
+
+@import '../../theme.scss';
+
 .grid-container {
   margin: 20px;
 }
@@ -28,6 +32,14 @@
 
 .dashboard-card-content {
   text-align: left;
+}
+
+app-dashboard {
+  background-color: mat.get-theme-color($theme, neutral, 0);
+}
+
+mat-card {
+  background-color: mat.get-theme-color($theme, neutral, 20);
 }
 
 mat-card-title {
