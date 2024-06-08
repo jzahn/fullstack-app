@@ -13,7 +13,7 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './dark-mode.component.scss'
 })
 export class DarkModeComponent {  
-  isDarkMode: boolean = false;
+  isDarkMode: boolean | undefined = undefined;
 
   constructor(private renderer: Renderer2) {
     this.setDarkMode(this.getDarkModePreference());
