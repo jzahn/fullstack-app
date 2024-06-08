@@ -24,8 +24,3 @@ $dark-theme: mat.m2-define-dark-theme((
 
 @include mat.core-theme($light-theme);
 @include mat.all-component-themes($light-theme);
-
-// @media (prefers-color-scheme: dark) {
-//   @include mat.core-color($dark-theme);
-//   @include mat.all-component-colors($dark-theme);
-// }
