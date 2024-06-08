@@ -18,4 +18,11 @@
 
 .nav-item {
   display: flex;
+  flex-direction: column;
+}
+
+.dark-mode-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
